@@ -1,0 +1,15 @@
+# Default ignored files
+/shelf/
+/workspace.xml
+/.idea
+/venv
+/.venv
+/.env
+env
+/*/.env
+/.DS_Store
+__pycache__/
+/FrontEnd/node_modules
+__local_settings.py
+/*/migrations/
+.coverage

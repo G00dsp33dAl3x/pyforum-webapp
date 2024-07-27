@@ -1,0 +1,36 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="icon" type="image/x-icon" href="{% static 'css/img/f.ico' %}">
+    <title>{% block title %}{% endblock %}</title>
+    {% block css %}
+    
+    {% endblock %}
+</head>
+
+<body>
+    <header>
+        {% block header %}{% endblock %}
+    </header>
+    <nav>
+        <div class="nav_block">
+            <a class="nav_a" href="{% url 'logout' %}">Вийти</a>
+            <a class="nav_a" href="{% url 'approve_company' %}">Approve Company</a>
+            <a class="nav_a" href="{% url 'info' %}">User-Company</a>
+        </div>
+        {%block nav %}{% endblock %}
+    </nav>
+
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer>
+        <p>Panel Admin Forum-sandbox</p>
+    </footer>
+</body>
+
+</html>

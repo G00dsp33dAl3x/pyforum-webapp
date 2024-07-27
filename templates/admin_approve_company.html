@@ -1,0 +1,114 @@
+{% extends 'base_admin.html' %}
+{% load static %}
+
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/global.css' %}">
+<link rel="stylesheet" href="{% static 'css/admin_info.css' %}">
+{% endblock %}
+
+{% block nav %}
+<form class="nav_a" method="get" action="{% url 'approve_company' %}">
+    <input type="text" name="search_text" placeholder="Пошук">
+    <button type="submit">Пошук</button>
+    <button action="{% url 'approve_company' %}" type="submit">Скинути</button>
+</form>
+{% endblock %}
+
+
+{% block content %}
+<!-- Display Not approv Company Information -->
+<h3>Company Not approved Information:</h2>
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Company</th>
+                    <th>Email Owner</th>
+                    <th>Owner</th>
+                    <th>Edrpou</th>
+                    <th>Deleted</th>
+                    <th>Flag</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for company in not_approved_info_list %}
+                <tr>
+                    <td>{{ company.id }}</td>
+                    <td>{{ company.company_name }}</td>
+                    <td>{{ company.email }}</td>
+                    <td>{{ company.name_company_owner }}</td>
+                    <td><a href="{% url 'admin_full_company_info' company.id %}">{{ company.edrpou }}</a></td>
+                    <td>{{ company.is_deleted }}</td>
+                    <td>{{ company.flag_approve }}</td>
+                    <td><a href="{% url 'erdpou_aproved' company.id %}">approve</a></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <div class="pagination">
+            <span class="step-links">
+                {% if not_approved_info_list.has_previous %}
+                <a href="?page_not_approve=1">&laquo; first</a>
+                <a href="?page_not_approve={{ not_approved_info_list.previous_page_number }}">previous</a>
+                {% endif %}
+
+                <span class="current">
+                    Page {{ not_approved_info_list.number }} in {{ not_approved_info_list.paginator.num_pages }}.
+                </span>
+
+                {% if not_approved_info_list.has_next %}
+                <a href="?page_not_approve={{ not_approved_info_list.next_page_number }}">next</a>
+                <a href="?page_not_approve={{ not_approved_info_list.paginator.num_pages }}">last &raquo;</a>
+                {% endif %}
+            </span>
+        </div>
+    </div>
+    <!-- Display Approve Company Information -->
+    <h3>Company Registered Information:</h2>
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Company</th>
+                        <th>Email Owner</th>
+                        <th>Owner</th>
+                        <th>Edrpou</th>
+                        <th>Deleted</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for company in approved_info_list %}
+                    <tr>
+                        <td>{{ company.id }}</td>
+                        <td>{{ company.company_name }}</td>
+                        <td>{{ company.email }}</td>
+                        <td>{{ company.name_company_owner }}</td>
+                        <td><a href="{% url 'admin_full_company_info' company.id %}">{{ company.edrpou }}</a></td>
+                        <td>{{ company.is_deleted }}</td>
+                        <td><a href="{% url 'company_unregistered' company.id %}">unregistered</a></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <div class="pagination">
+                <span class="step-links">
+                    {% if approved_info_list.has_previous %}
+                    <a href="?page_company=1">&laquo; first</a>
+                    <a href="?page_company={{ approved_info_list.previous_page_number }}">previous</a>
+                    {% endif %}
+
+                    <span class="current">
+                        Page {{ approved_info_list.number }} in {{ approved_info_list.paginator.num_pages }}.
+                    </span>
+
+                    {% if approved_info_list.has_next %}
+                    <a href="?page_company={{ approved_info_list.next_page_number }}">next</a>
+                    <a href="?page_company={{ approved_info_list.paginator.num_pages }}">last &raquo;</a>
+                    {% endif %}
+                </span>
+            </div>
+        </div>
+        {% endblock %}
