@@ -1,0 +1,46 @@
+{% extends 'base_admin.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/global.css' %}">
+<link rel="stylesheet" href="{% static 'css/admin_info.css' %}">
+<link rel="stylesheet" href="{% static 'css/admin_full_company_info.css' %}">
+{% endblock %}
+
+{% block nav %}
+<a class="nav_a" href="{% url 'approve_company' %}">Закрити</a>
+{% endblock %}
+
+{% block content %}
+<h3 class="modal_h3">Company & User Info</h3>
+
+{% for logo_url in media_logo %}
+<img class="logo_size" src="{{ logo_url }}" alt="#">
+{% endfor %}
+
+<ul class="modal_company">
+    <li class="modal_company_info">Company : {{ full_company_info.company_name }}</li>
+    <li class="modal_company_info">Email: {{ full_company_info.email }}</li>
+    <li class="modal_company_info">Edrpou: {{ full_company_info.edrpou }}</li>
+    <li class="modal_company_info">Phone: {{ full_company_info.phone }}</li>
+    <li class="modal_company_info">Owner company: {{ full_company_info.name_company_owner }}</li>
+    <li class="modal_company_info">Company ID: {{ full_company_info.id }}</li>
+</ul>
+
+<h3 class=" modal_h3">Company status in Forum</h3>
+<ul class="modal_company">
+    <li class="modal_company_status">Is active: {{ full_company_info.is_active }}</li>
+    <li class="modal_company_status">Is deleted: {{ full_company_info.is_deleted }}</li>
+</ul>
+
+<h3 class=" modal_h3">Region</h3>
+<ul class="modal_region">
+    {% for region in region_list %}
+    <li class="modal_region_all">{{ region }}</li>
+    {% endfor %}
+</ul>
+
+{% for image_url in media_list %}
+<img class="img_size" src="{{ image_url }}" alt="#">
+{% endfor %}
+{% endblock %}

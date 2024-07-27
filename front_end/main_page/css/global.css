@@ -1,0 +1,71 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@200&display=swap');
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+:root {
+    --title-font-family: 'inter', serif;
+    --description-font-family: 'inter', serif;
+    --App-link: #61dafb;
+    --background-color-header: #0B6C61;
+    --background-color-form: #0B6C61;
+    --color-text-form: #FFF;
+    --color-text-navbar: #FFF;
+    --background-color1: #282c34;
+    --font-family: 'inter', serif;
+    --color-text-footer: #FFF;
+
+}
+
+.container {
+    max-width: 1200px;
+    margin: auto;
+}
+
+img {
+    display: block;
+    width: 100%;
+}
+
+a {
+    text-decoration: none;
+}
+
+h1 {
+    font-family: var(--title-font-family);
+    font-weight: normal;
+}
+
+h2 {
+    font-family: var(--title-font-family);
+    font-weight: normal;
+}
+
+input {
+    font-family: var(--description-font-family);
+}
+
+nav {
+    background-color: var(--background-color-header);
+    font-family: var(--title-font-family);
+    block-size: auto;
+}
+
+.nav_a {
+    color: var(--color-text-navbar);
+    font-family: var(--title-font-family);
+    font-size: 16px;
+    margin: 10px;
+}
+
+footer {
+    background-color: var(--background-color-header);
+
+    font-family: var(--title-font-family);
+    color: var(--color-text-footer);
+    font-size: 16px;
+}

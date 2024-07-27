@@ -1,0 +1,109 @@
+{% extends 'base_admin.html' %}
+{% load static %}
+
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/global.css' %}">
+<link rel="stylesheet" href="{% static 'css/admin_info.css' %}">
+{% endblock %}
+
+{% block nav %}
+<form class="nav_a" method="get" action="{% url 'info' %}">
+    <input type="text" name="search_text" placeholder="Пошук">
+    <button type="submit">Пошук</button>
+    <button action="{% url 'approve_company' %}" type="submit">Скинути</button>
+</form>
+{% endblock %}
+
+
+{% block content %}
+<h2>Forum sandbox Admin </h2>
+
+<h3 class="tytle-table">User Information:</h3>
+<div class="table-container">
+    <table>
+        <thead>
+            <tr>
+                <th>Email</th>
+                <th>Name</th>
+                <th>Surname</th>
+                <th>Is Active</th>
+                <th>Is Staff</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for user in users %}
+            <tr>
+                <td>{{ user.email }}</td>
+                <td>{{ user.name }}</td>
+                <td>{{ user.surname }}</td>
+                <td>{{ user.is_active }}</td>
+                <td>{{ user.is_staff }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+        <div class="pagination">
+            <span class="step-links">
+                {% if users.has_previous %}
+                <a href="?page_user=1">&laquo; first</a>
+                <a href="?page_user={{ users.previous_page_number }}">previous</a>
+                {% endif %}
+
+                <span class="current">
+                    Page {{ users.number }} in {{ users.paginator.num_pages }}.
+                </span>
+
+                {% if users.has_next %}
+                <a href="?page_user={{ users.next_page_number }}">next</a>
+                <a href="?page_user={{ users.paginator.num_pages }}">last &raquo;</a>
+                {% endif %}
+            </span>
+        </div>
+    </table>
+</div>
+<!-- Display Company Information -->
+<h3 class="tytle-table">Company Information:</h3>
+<div class="table-container">
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Registered</th>
+                <th>Startup</th>
+                <th>Common_info</th>
+                <th>Edrpou</th>
+                <th>Deleted</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for company in companys %}
+            <tr>
+                <td>{{ company.name }}</td>
+                <td>{{ company.is_registered }}</td>
+                <td>{{ company.is_startup }}</td>
+                <td>{{ company.common_info }}</td>
+                <td>{{ company.edrpou}}</td>
+                <td>{{ company.is_deleted }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+        <div class="pagination">
+            <span class="step-links">
+                {% if companys.has_previous %}
+                <a href="?page_company=1">&laquo; first</a>
+                <a href="?page_company={{ companys.previous_page_number }}">previous</a>
+                {% endif %}
+
+                <span class="current">
+                    Page {{ companys.number }} in {{ companys.paginator.num_pages }}.
+                </span>
+
+                {% if companys.has_next %}
+                <a href="?page_company={{ companys.next_page_number }}">next</a>
+                <a href="?page_company={{ companys.paginator.num_pages }}">last &raquo;</a>
+                {% endif %}
+            </span>
+        </div>
+    </table>
+</div>
+{% endblock %}

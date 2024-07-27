@@ -1,0 +1,24 @@
+section.main_page_card {
+	margin: 10vh;
+	width:auto;
+	align-items: stretch;
+	justify-content: center;
+}
+section.main_page_partner_card{
+       margin: 10vh;
+       min-height: 100px;
+}
+
+.content-height{
+      height: 150px;
+}
+
+.card-img-top {
+        max-height: 350px; 
+        object-fit: cover; 
+    }
+    
+.partner-title {
+	font-family: var(--title-font-family);
+        font-weight: normal;
+}
