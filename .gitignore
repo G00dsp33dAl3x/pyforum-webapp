@@ -13,3 +13,6 @@ __pycache__/
 __local_settings.py
 /*/migrations/
 .coverage
+.env
+*.pyc
+statisticfiles/
