@@ -30,7 +30,7 @@ SECRET_KEY = config("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['127.0.0.1']
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
 ]
@@ -237,7 +237,7 @@ LOGGING = {
         'file': {
             'level': 'ERROR',
             'class': 'logging.FileHandler',
-            'filename': os.path.join(BASE_DIR, 'logs', 'django.log'), # Замініть шлях на реальний шлях до файлу логу помилок
+            'filename': os.path.join(BASE_DIR, 'logs', 'logs/django.log'), # Замініть шлях на реальний шлях до файлу логу помилок
         },
     },
     'loggers': {
