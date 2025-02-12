@@ -1,17 +1,27 @@
 version: '3.8'
 
 services:
-  web:
+  nginx:
+    image: nginx:latest
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - static_volume:/app/staticfiles
+    ports:
+      - "8080:80"    
+    depends_on:
+      - web1
+      - web2
+      - web3
+
+  web1: &web-service
     build: .
     command: >
       sh -c "python manage.py collectstatic --noinput &&
              python manage.py migrate &&
-             gunicorn --bind 0.0.0.0:8000 forum-sandbox.wsgi:application"
+             gunicorn --bind 0.0.0.0:8000 --workers 3 forum-sandbox.wsgi:application"
     volumes:
       - .:/app
       - static_volume:/app/staticfiles
-    ports:
-      - 8000:8000
     environment:
       - SECRET_KEY=${SECRET_KEY}
       - DEBUG=0
@@ -19,7 +29,7 @@ services:
       - PG_DB=${PG_DB}
       - PG_USER=${PG_USER}
       - PG_PASSWORD=${PG_PASSWORD}
-      - DB_PORT=${DB_PORT}
+      - DB_PORT=5433
       - EMAIL_HOST=${EMAIL_HOST}
       - EMAIL_PORT=${EMAIL_PORT}
       - EMAIL_USE_TLS=${EMAIL_USE_TLS}
@@ -27,6 +37,12 @@ services:
       - EMAIL_HOST_PASSWORD=${EMAIL_HOST_PASSWORD}
     depends_on:
       - db
+
+  web2:
+    <<: *web-service
+
+  web3:
+    <<: *web-service
 
   db:
     image: postgres:15
@@ -37,15 +53,15 @@ services:
       - POSTGRES_USER=${PG_USER}
       - POSTGRES_PASSWORD=${PG_PASSWORD}
     ports:
-      - 5432:5432
+      - "5433:5432"
 
   pgadmin:
     image: dpage/pgadmin4
     environment:
-      - PGADMIN_DEFAULT_EMAIL=${PGADMIN_EMAIL}
-      - PGADMIN_DEFAULT_PASSWORD=${PGADMIN_PASSWORD}
+      PGADMIN_DEFAULT_EMAIL: "admin@admin.com"
+      PGADMIN_DEFAULT_PASSWORD: "admin_password"
     ports:
-      - 5050:80
+      - "5050:80"
     depends_on:
       - db
 
