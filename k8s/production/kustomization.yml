@@ -1,0 +1,41 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: production
+
+resources:
+- namespace.yml
+- ingress/ingress.yml
+- hpa/web-hpa.yml
+- ../base
+
+images:
+- name: ${DOCKER_REGISTRY}/pyforum
+  newTag: production
+
+secretGenerator:
+- envs:
+  - secrets/.env.production
+  name: app-secrets
+  type: Opaque
+labels:
+- includeSelectors: true
+  pairs:
+    environment: production
+patches:
+- target:
+    kind: ConfigMap
+    name: app-config
+  patch: |-
+    apiVersion: v1
+    kind: ConfigMap
+    metadata:
+      name: app-config
+    data:
+      DEBUG: "0"
+      ENVIRONMENT: "production"
+      ALLOWED_HOSTS: "www.yourdomain.com"
+      DJANGO_SETTINGS_MODULE: "forum-sandbox.settings.production"
+      STATIC_URL: "https://www.yourdomain.com/static/"
+      MEDIA_URL: "https://www.yourdomain.com/media/"
+      CSRF_TRUSTED_ORIGINS: "https://www.yourdomain.com"

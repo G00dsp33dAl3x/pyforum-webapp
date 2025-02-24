@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: app-config
+data:
+  DEBUG: "1"
+  ENVIRONMENT: "staging"
+  ALLOWED_HOSTS: "staging.yourdomain.com"
+  DJANGO_SETTINGS_MODULE: "forum-sandbox.settings.staging"
+  STATIC_URL: "https://staging.yourdomain.com/static/"
+  MEDIA_URL: "https://staging.yourdomain.com/media/"
