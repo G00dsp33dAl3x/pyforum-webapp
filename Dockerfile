@@ -21,6 +21,21 @@ RUN pip install --no-cache-dir -r requirements.txt
 FROM builder as assets
 WORKDIR /build
 COPY . .
+
+ENV SECRET_KEY="temporary-build-key-123456789" \
+    CORS_ORIGIN_WHITELIST="http://localhost:8000,http://localhost:3000" \
+    PG_DB="forum" \
+    PG_USER="postgres" \
+    PG_PASSWORD="postgres" \
+    DB_HOST="localhost" \
+    DB_PORT="5432" \
+    EMAIL_BACKEND="django.core.mail.backends.console.EmailBackend" \
+    EMAIL_HOST="dummy" \
+    EMAIL_PORT="587" \
+    EMAIL_USE_TLS="1" \
+    EMAIL_HOST_USER="dummy" \
+    EMAIL_HOST_PASSWORD="dummy"
+
 RUN python manage.py collectstatic --noinput --clear
 
 FROM python:3.12-slim
