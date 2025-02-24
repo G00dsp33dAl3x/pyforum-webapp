@@ -1,0 +1,40 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: staging
+
+resources:
+- namespace.yml
+- ingress/ingress.yml
+- ../base
+
+images:
+- name: ${DOCKER_REGISTRY}/pyforum
+  newTag: staging
+
+secretGenerator:
+- envs:
+  - secrets/.env.staging
+  name: app-secrets
+  type: Opaque
+labels:
+- includeSelectors: true
+  pairs:
+    environment: staging
+patches:
+- target:
+    kind: ConfigMap
+    name: app-config
+  patch: |-
+    apiVersion: v1
+    kind: ConfigMap
+    metadata:
+      name: app-config
+    data:
+      DEBUG: "1"
+      ENVIRONMENT: "staging"
+      ALLOWED_HOSTS: "staging.yourdomain.com"
+      DJANGO_SETTINGS_MODULE: "forum-sandbox.settings.staging"
+      STATIC_URL: "https://staging.yourdomain.com/static/"
+      MEDIA_URL: "https://staging.yourdomain.com/media/"
+
