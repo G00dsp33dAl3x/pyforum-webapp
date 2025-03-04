@@ -1,0 +1,61 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: django-app
+  namespace: forum-app
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: django-app
+  template:
+    metadata:
+      labels:
+        app: django-app
+    spec:
+      containers:
+      - name: django-app
+        image: YOUR_DOCKER_REGISTRY/forum-sandbox:latest
+        ports:
+        - containerPort: 8000
+        env:
+        - name: SECRET_KEY
+          valueFrom:
+            secretKeyRef:
+              name: app-secrets
+              key: SECRET_KEY
+        - name: PG_DB
+          valueFrom:
+            secretKeyRef:
+              name: db-secrets
+              key: PG_DB
+        - name: PG_USER
+          valueFrom:
+            secretKeyRef:
+              name: db-secrets
+              key: PG_USER
+        - name: PG_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: db-secrets
+              key: PG_PASSWORD
+        - name: DB_HOST
+          value: postgresql
+        volumeMounts:
+        - name: static-files
+          mountPath: /app/staticfiles
+      volumes:
+      - name: static-files
+        emptyDir: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: django-app
+  namespace: forum-app
+spec:
+  selector:
+    app: django-app
+  ports:
+  - port: 8000
+    targetPort: 8000
