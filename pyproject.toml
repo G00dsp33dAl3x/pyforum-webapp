@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "poetry add django psycopg2-binary gunicorn"
+name = "forum-sandbox"
 version = "0.1.0"
 description = "Web-forum on Django for DevOps-project"
 authors = ["Alex Dobroskok <dobroskok.al3x@gmail.com>"]
@@ -11,8 +11,8 @@ python = "^3.12"
 django = "^5.1.6"
 psycopg2-binary = "^2.9.10"
 gunicorn = "^23.0.0"
-
+django-cors-headers = "^4.3.0" 
 
 [build-system]
-requires = ["poetry-core"]
+requires = ["poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"
