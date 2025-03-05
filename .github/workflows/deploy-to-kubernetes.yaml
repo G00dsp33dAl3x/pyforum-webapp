@@ -1,0 +1,32 @@
+name: Deploy to Kubernetes
+
+on:
+  workflow_run:
+    workflows: ["Docker Build and Push"]
+    types:
+      - completed
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Set up Kubernetes context
+      uses: azure/k8s-set-context@v2
+      with:
+        method: kubeconfig
+        kubeconfig: ${{ secrets.KUBE_CONFIG }}
+
+    - name: Deploy to Kubernetes
+      run: |
+        kubectl apply -f kubernetes/namespace.yaml
+        kubectl apply -f kubernetes/secrets.yaml
+        kubectl apply -f kubernetes/postgresql-deployment.yaml
+        kubectl apply -f kubernetes/django-deployment.yaml
+        kubectl apply -f kubernetes/ingress.yaml
+        kubectl apply -f kubernetes/pvc.yaml
+        kubectl apply -f kubernetes/cluster-issuer.yaml
+
+        
