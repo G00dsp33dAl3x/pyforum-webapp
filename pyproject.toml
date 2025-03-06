@@ -5,7 +5,7 @@ description = "Web-forum on Django for DevOps-project"
 authors = ["Alex Dobroskok <dobroskok.al3x@gmail.com>"]
 license = "MIT"
 readme = "README.md"
-packages = [{include = "forum-sandbox"}]
+packages = [{include = "forum_sandbox"}]
 
 [tool.poetry.dependencies]
 python = "^3.12"
