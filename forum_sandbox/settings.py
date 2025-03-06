@@ -50,7 +50,7 @@ INSTALLED_APPS = [
     "authentication",
     "profiles",
     "administration",
-    #"search",
+    "forum_sandbox",
 ]
 
 MIDDLEWARE = [
