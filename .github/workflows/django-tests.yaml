@@ -40,8 +40,29 @@ jobs:
       run: |
         poetry install --no-root
 
+    - name: Create necessary directories
+      run: |
+        mkdir -p logs/logs
+
+    - name: Create .env file for tests
+      run: |
+        echo "SECRET_KEY=django-insecure-test-key-for-ci" > .env
+        echo "PG_DB=testdb" >> .env
+        echo "PG_USER=testuser" >> .env
+        echo "PG_PASSWORD=testpassword" >> .env
+        echo "DB_HOST=localhost" >> .env
+        echo "DB_PORT=5432" >> .env
+        echo "EMAIL_BACKEND=django.core.mail.backends.console.EmailBackend" >> .env
+        echo "EMAIL_HOST=localhost" >> .env
+        echo "EMAIL_PORT=25" >> .env
+        echo "EMAIL_USE_TLS=False" >> .env
+        echo "EMAIL_HOST_USER=test@example.com" >> .env
+        echo "EMAIL_HOST_PASSWORD=testpassword" >> .env
+        echo "CORS_ORIGIN_WHITELIST=http://localhost:3000" >> .env
+
     - name: Run Tests
       env:
         DATABASE_URL: postgresql://testuser:testpassword@localhost:5432/testdb
+        DJANGO_SETTINGS_MODULE: forum-sandbox.settings
       run: |
         python manage.py test
