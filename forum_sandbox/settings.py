@@ -121,7 +121,7 @@ DATABASES = {
         "USER": config("PG_USER"),
         "PASSWORD": config("PG_PASSWORD"),
         "HOST": config("DB_HOST"),
-        "PORT": config("DB_PORT", 5433),
+        "PORT": config("DB_PORT", 5432),
     }
 }
 
