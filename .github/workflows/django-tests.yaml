@@ -66,12 +66,13 @@ jobs:
           echo "EMAIL_HOST_PASSWORD=testpassword" >> .env
           echo "CORS_ORIGIN_WHITELIST=http://localhost:3000" >> .env
 
-      - name: Create Database
+      - name: Drop and Create Database
         env:
           PGUSER: testuser
           PGPASSWORD: testpassword
           PGHOST: localhost
         run: |
+          dropdb -U testuser -h localhost testdb || true
           createdb -U testuser -h localhost testdb
 
       - name: Run Migrations
