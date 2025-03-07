@@ -21,12 +21,10 @@ jobs:
 
     - name: Deploy to Kubernetes
       run: |
-        kubectl apply -f kubernetes/namespace.yaml
-        kubectl apply -f kubernetes/secrets.yaml
-        kubectl apply -f kubernetes/postgresql-deployment.yaml
-        kubectl apply -f kubernetes/django-deployment.yaml
-        kubectl apply -f kubernetes/ingress.yaml
-        kubectl apply -f kubernetes/pvc.yaml
-        kubectl apply -f kubernetes/cluster-issuer.yaml
-
-        
+        kubectl apply -f k8s/namespace.yaml
+        kubectl apply -f k8s/secrets.yaml
+        kubectl apply -f k8s/postgresql-deployment.yaml
+        kubectl apply -f k8s/django-deployment.yaml
+        kubectl apply -f k8s/ingress.yaml
+        kubectl apply -f k8s/pvc.yaml
+        kubectl apply -f k8s/cluster-issuer.yaml
