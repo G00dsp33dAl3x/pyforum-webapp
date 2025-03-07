@@ -26,7 +26,8 @@ ENV PATH="/opt/venv/bin:$PATH"
 WORKDIR /build
 COPY pyproject.toml poetry.lock ./
 RUN poetry install --no-root --no-ansi --no-interaction && \
-    poetry show
+    poetry show && \
+    poetry run python -c "import django; print(django.__version__)"
 
 # Stage 2: Assets stage (for collecting static files)
 FROM builder as assets
@@ -56,7 +57,7 @@ COPY . .
 
 # Collect static files
 RUN mkdir -p /build/staticfiles && \
-    python manage.py collectstatic --noinput --clear
+    poetry run python manage.py collectstatic --noinput --clear
 
 # Stage 3: Final stage
 FROM python:3.12-slim
