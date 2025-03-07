@@ -94,7 +94,7 @@ CORS_ALLOW_HEADERS = list(default_headers) + [
     "Content-Type",
 ]
 
-ROOT_URLCONF = "forum-sandbox.urls"
+ROOT_URLCONF = "forum_sandbox.urls"
 
 TEMPLATES = [
     {
@@ -112,7 +112,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = "forum-sandbox.wsgi.application"
+WSGI_APPLICATION = "forum_sandbox.wsgi.application"
 
 DATABASES = {
     "default": {

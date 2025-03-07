@@ -36,6 +36,7 @@ jobs:
       - name: Install dependencies
         run: |
           poetry install --no-root
+          pip list
       - name: Create necessary directories
         run: |
           mkdir -p logs/logs
@@ -57,12 +58,12 @@ jobs:
       - name: Run Migrations
         env:
           DATABASE_URL: postgresql://testuser:testpassword@localhost:5432/testdb
-          DJANGO_SETTINGS_MODULE: forum_sandbox.settings
+          DJANGO_SETTINGS_MODULE: forum_sandbox.settings  
         run: |
           python manage.py migrate
       - name: Run Tests
         env:
           DATABASE_URL: postgresql://testuser:testpassword@localhost:5432/testdb
-          DJANGO_SETTINGS_MODULE: forum_sandbox.settings
+          DJANGO_SETTINGS_MODULE: forum_sandbox.settings  
         run: |
           python manage.py test
