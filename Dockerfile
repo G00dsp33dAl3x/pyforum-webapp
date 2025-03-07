@@ -25,7 +25,8 @@ ENV PATH="/opt/venv/bin:$PATH"
 # Install Python dependencies
 WORKDIR /build
 COPY pyproject.toml poetry.lock ./
-RUN poetry install --no-root --no-ansi --no-interaction
+RUN poetry install --no-root --no-ansi --no-interaction && \
+    poetry show
 
 # Stage 2: Assets stage (for collecting static files)
 FROM builder as assets
@@ -44,6 +45,10 @@ ENV SECRET_KEY="temporary-build-key-123456789" \
     EMAIL_USE_TLS="1" \
     EMAIL_HOST_USER="dummy" \
     EMAIL_HOST_PASSWORD="dummy"
+
+# Copy the virtual environment from the builder stage
+COPY --from=builder /opt/venv /opt/venv
+ENV PATH="/opt/venv/bin:$PATH"
 
 # Copy the application code
 WORKDIR /build
