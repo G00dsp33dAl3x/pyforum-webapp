@@ -9,25 +9,28 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    
+
     steps:
     - uses: actions/checkout@v3
 
-    - name: Set up Kubernetes context
-      uses: azure/k8s-set-context@v2
+    - name: Set up Kind
+      uses: helm/kind-action@v1
       with:
-        method: kubeconfig
-        kubeconfig: ${{ secrets.KUBE_CONFIG }}
+        cluster_name: my-cluster
+
+    - name: Set up Kubernetes context
+      run: |
+        kubectl config use-context kind-my-cluster
 
     - name: Print Kubernetes context
       run: kubectl config current-context
 
     - name: Deploy to Kubernetes
       run: |
-        kubectl apply -f k8s/namespace.yaml 
+        kubectl apply -f k8s/namespace.yaml
         kubectl apply -f k8s/secrets.yaml
-        kubectl apply -f k8s/postgresql-deployment.yaml 
-        kubectl apply -f k8s/django-deployment.yaml 
-        kubectl apply -f k8s/ingress.yaml 
-        kubectl apply -f k8s/pvc.yaml 
+        kubectl apply -f k8s/postgresql-deployment.yaml
+        kubectl apply -f k8s/django-deployment.yaml
+        kubectl apply -f k8s/ingress.yaml
+        kubectl apply -f k8s/pvc.yaml
         kubectl apply -f k8s/cluster-issuer.yaml
