@@ -25,6 +25,11 @@ jobs:
     - name: Print Kubernetes context
       run: kubectl config current-context
 
+    - name: Install cert-manager
+      run: |
+        kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.13.1/cert-manager.yaml
+        kubectl wait --for=condition=Available deployment -n cert-manager --all --timeout=300s
+
     - name: Deploy to Kubernetes
       run: |
         kubectl apply -f k8s/namespace.yaml
