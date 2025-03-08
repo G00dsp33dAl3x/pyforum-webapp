@@ -19,12 +19,15 @@ jobs:
         method: kubeconfig
         kubeconfig: ${{ secrets.KUBE_CONFIG }}
 
+    - name: Print Kubernetes context
+      run: kubectl config current-context
+
     - name: Deploy to Kubernetes
       run: |
-        kubectl apply -f k8s/namespace.yaml
+        kubectl apply -f k8s/namespace.yaml 
         kubectl apply -f k8s/secrets.yaml
-        kubectl apply -f k8s/postgresql-deployment.yaml
-        kubectl apply -f k8s/django-deployment.yaml
-        kubectl apply -f k8s/ingress.yaml
-        kubectl apply -f k8s/pvc.yaml
+        kubectl apply -f k8s/postgresql-deployment.yaml 
+        kubectl apply -f k8s/django-deployment.yaml 
+        kubectl apply -f k8s/ingress.yaml 
+        kubectl apply -f k8s/pvc.yaml 
         kubectl apply -f k8s/cluster-issuer.yaml
