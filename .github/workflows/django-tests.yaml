@@ -53,7 +53,7 @@ jobs:
 
     - name: Run Migrations
       env:
-        SECRET_KEY: ${{ secrets.SECRET_KEY }}
+        SECRET_KEY: ${{ secrets.SECRET_KEY }}  
         DATABASE_URL: postgres://testuser:testpassword@localhost:5432/testdb
         CORS_ORIGIN_WHITELIST: http://localhost:8000,http://localhost:3000
         PG_DB: testdb
@@ -79,7 +79,7 @@ jobs:
 
     - name: Run Django Tests
       env:
-        SECRET_KEY: ${{ secrets.SECRET_KEY }}
+        SECRET_KEY: ${{ secrets.SECRET_KEY }}  
         DATABASE_URL: postgres://testuser:testpassword@localhost:5432/testdb
         CORS_ORIGIN_WHITELIST: http://localhost:8000,http://localhost:3000
         PG_DB: testdb
