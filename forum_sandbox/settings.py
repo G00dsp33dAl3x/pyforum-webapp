@@ -116,13 +116,12 @@ WSGI_APPLICATION = "forum_sandbox.wsgi.application"
 
 DATABASES = {
     "default": {
-     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': config("PG_DB", default="testdb"),  
-        'USER': config("PG_USER", default="testuser"),
-        'PASSWORD': config("PG_PASSWORD", default="testpassword"),
-        'HOST': config("DB_HOST", default="localhost"),
-        'PORT': config("DB_PORT", default="5432"),
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": config("PG_DB"),
+        "USER": config("PG_USER"),
+        "PASSWORD": config("PG_PASSWORD"),
+        "HOST": config("DB_HOST"),
+        "PORT": config("DB_PORT", 5432),
     }
 }
 
