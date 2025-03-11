@@ -43,29 +43,30 @@ jobs:
         pip install poetry
         poetry install --no-root
 
-    - name: Set environment variables
-      run: |
-        echo "SECRET_KEY=${{ secrets.SECRET_KEY }}" >> $GITHUB_ENV
-
     - name: Wait for PostgreSQL to be ready
       run: sleep 10
 
     - name: Run Migrations
       env:
+        SECRET_KEY: ${{ secrets.SECRET_KEY }}
         DATABASE_URL: postgres://test_user:test_password@localhost:5432/test_db
+        CORS_ORIGIN_WHITELIST: ${{ secrets.CORS_ORIGIN_WHITELIST }}
       run: |
         source venv/bin/activate
         python manage.py migrate
 
     - name: Collect Static Files
+      env:
+        SECRET_KEY: ${{ secrets.SECRET_KEY }}
       run: |
         source venv/bin/activate
         python manage.py collectstatic --noinput
 
     - name: Run Django Tests
       env:
-        DATABASE_URL: postgres://test_user:test_password@localhost:5432/test_db
         SECRET_KEY: ${{ secrets.SECRET_KEY }}
+        DATABASE_URL: postgres://test_user:test_password@localhost:5432/test_db
+        CORS_ORIGIN_WHITELIST: ${{ secrets.CORS_ORIGIN_WHITELIST }}
       run: |
         source venv/bin/activate
         python manage.py test
