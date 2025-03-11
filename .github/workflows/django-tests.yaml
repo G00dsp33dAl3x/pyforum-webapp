@@ -80,6 +80,7 @@ jobs:
         PG_PASSWORD: test_password
         PG_HOST: localhost
         PG_PORT: 5432
+        DB_HOST: localhost
       run: |
         source venv/bin/activate
         python manage.py test
