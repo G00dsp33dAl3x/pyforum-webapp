@@ -43,6 +43,10 @@ jobs:
         pip install poetry
         poetry install --no-root
 
+    - name: Set environment variables
+      run: |
+        echo "SECRET_KEY=${{ secrets.SECRET_KEY }}" >> $GITHUB_ENV
+
     - name: Wait for PostgreSQL to be ready
       run: sleep 10
 
@@ -61,6 +65,7 @@ jobs:
     - name: Run Django Tests
       env:
         DATABASE_URL: postgres://test_user:test_password@localhost:5432/test_db
+        SECRET_KEY: ${{ secrets.SECRET_KEY }}
       run: |
         source venv/bin/activate
         python manage.py test
