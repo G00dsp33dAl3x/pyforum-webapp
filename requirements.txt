@@ -85,3 +85,6 @@ sqlparse==0.5.3 ; python_version >= "3.12" and python_version < "4.0" \
 tzdata==2025.1 ; python_version >= "3.12" and python_version < "4.0" and sys_platform == "win32" \
     --hash=sha256:24894909e88cdb28bd1636c6887801df64cb485bd593f2fd83ef29075a81d694 \
     --hash=sha256:7e127113816800496f027041c570f50bcd464a020098a3b6b199517772303639
+python-decouple==3.8 ; python_version >= "3.12" and python_version < "4.0" \
+    --hash=sha256:1b2d3c7f7f0b5f7f0f8b5f5f5f5f5f5f5f5f5f5f5f5f5f5f5f5f5f5f5f5f5f5f5 \
+    --hash=sha256:2b2d3c7f7f0b5f7f0f8b5f5f5f5f5f5f5f5f5f5f5f5f5f5f5f5f5f5f5f5f5f5f5
