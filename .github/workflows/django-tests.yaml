@@ -49,6 +49,7 @@ jobs:
       - name: Create necessary directories
         run: |
           mkdir -p logs/logs
+          mkdir -p staticfiles  
 
       - name: Create .env file for tests
         run: |
@@ -81,6 +82,13 @@ jobs:
           DJANGO_SETTINGS_MODULE: forum_sandbox.settings
         run: |
           python manage.py migrate
+
+      - name: Collect Static Files
+        env:
+          DATABASE_URL: postgresql://testuser:testpassword@localhost:5432/testdb
+          DJANGO_SETTINGS_MODULE: forum_sandbox.settings
+        run: |
+          python manage.py collectstatic --noinput  
 
       - name: Run Tests
         env:
