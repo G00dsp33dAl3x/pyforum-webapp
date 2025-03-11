@@ -51,23 +51,25 @@ jobs:
           sleep 3
         done
 
+    - name: Create .env file
+      run: |
+        echo "SECRET_KEY=${{ secrets.SECRET_KEY }}" > .env
+        echo "DATABASE_URL=postgres://testuser:testpassword@localhost:5432/testdb" >> .env
+        echo "CORS_ORIGIN_WHITELIST=http://localhost:8000,http://localhost:3000" >> .env
+        echo "PG_DB=testdb" >> .env
+        echo "PG_USER=testuser" >> .env
+        echo "PG_PASSWORD=testpassword" >> .env
+        echo "DB_HOST=localhost" >> .env
+        echo "DB_PORT=5432" >> .env
+        echo "DB_PORT_OUT=5432" >> .env
+        echo "EMAIL_BACKEND=django.core.mail.backends.smtp.EmailBackend" >> .env
+        echo "EMAIL_HOST=someuser@gmail.com" >> .env
+        echo "EMAIL_PORT=587" >> .env
+        echo "EMAIL_USE_TLS=1" >> .env
+        echo "EMAIL_HOST_USER=test@test.com" >> .env
+        echo "EMAIL_HOST_PASSWORD=test-password" >> .env
+
     - name: Run Migrations
-      env:
-        SECRET_KEY: ${{ secrets.SECRET_KEY }}  # Reference the GitHub Secret
-        DATABASE_URL: postgres://testuser:testpassword@localhost:5432/testdb
-        CORS_ORIGIN_WHITELIST: http://localhost:8000,http://localhost:3000
-        PG_DB: testdb
-        PG_USER: testuser
-        PG_PASSWORD: testpassword
-        DB_HOST: localhost
-        DB_PORT: 5432
-        DB_PORT_OUT: 5432
-        EMAIL_BACKEND: django.core.mail.backends.smtp.EmailBackend
-        EMAIL_HOST: someuser@gmail.com
-        EMAIL_PORT: 587
-        EMAIL_USE_TLS: 1
-        EMAIL_HOST_USER: test@test.com
-        EMAIL_HOST_PASSWORD: test-password
       run: |
         source venv/bin/activate
         python manage.py migrate
@@ -78,22 +80,6 @@ jobs:
         python manage.py collectstatic --noinput
 
     - name: Run Django Tests
-      env:
-        SECRET_KEY: ${{ secrets.SECRET_KEY }}  # Reference the GitHub Secret
-        DATABASE_URL: postgres://testuser:testpassword@localhost:5432/testdb
-        CORS_ORIGIN_WHITELIST: http://localhost:8000,http://localhost:3000
-        PG_DB: testdb
-        PG_USER: testuser
-        PG_PASSWORD: testpassword
-        DB_HOST: localhost
-        DB_PORT: 5432
-        DB_PORT_OUT: 5432
-        EMAIL_BACKEND: django.core.mail.backends.smtp.EmailBackend
-        EMAIL_HOST: someuser@gmail.com
-        EMAIL_PORT: 587
-        EMAIL_USE_TLS: 1
-        EMAIL_HOST_USER: test@test.com
-        EMAIL_HOST_PASSWORD: test-password
       run: |
         source venv/bin/activate
         python manage.py test
