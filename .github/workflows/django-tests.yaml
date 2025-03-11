@@ -49,10 +49,7 @@ jobs:
       - name: Create necessary directories
         run: |
           mkdir -p logs/logs
-<<<<<<< HEAD
-          mkdir -p staticfiles  
-=======
->>>>>>> 1af4cb51707c62084ba98744c842612162718370
+          mkdir -p staticfiles  # Ensure staticfiles directory exists for whitenoise
 
       - name: Create .env file for tests
         run: |
@@ -86,16 +83,13 @@ jobs:
         run: |
           python manage.py migrate
 
-<<<<<<< HEAD
       - name: Collect Static Files
         env:
           DATABASE_URL: postgresql://testuser:testpassword@localhost:5432/testdb
           DJANGO_SETTINGS_MODULE: forum_sandbox.settings
         run: |
-          python manage.py collectstatic --noinput  
+          python manage.py collectstatic --noinput  # Ensure static files are collected
 
-=======
->>>>>>> 1af4cb51707c62084ba98744c842612162718370
       - name: Run Tests
         env:
           DATABASE_URL: postgresql://testuser:testpassword@localhost:5432/testdb
