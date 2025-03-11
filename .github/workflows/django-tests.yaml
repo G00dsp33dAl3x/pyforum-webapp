@@ -40,8 +40,8 @@ jobs:
         python -m venv venv
         source venv/bin/activate
         pip install --upgrade pip
-        pip install -r requirements.txt
-        pip install django-cors-headers 
+        pip install poetry
+        poetry install --no-root
 
     - name: Wait for PostgreSQL to be ready
       run: sleep 10
@@ -64,6 +64,11 @@ jobs:
       run: |
         source venv/bin/activate
         python manage.py test
+
+    - name: List installed packages
+      run: |
+        source venv/bin/activate
+        pip list
 
     - name: Check Python Version
       run: |
