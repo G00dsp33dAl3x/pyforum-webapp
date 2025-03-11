@@ -44,20 +44,28 @@ jobs:
         poetry install --no-root
 
     - name: Wait for PostgreSQL to be ready
-      run: sleep 10
+      run: |
+        for i in {1..10}; do
+          pg_isready -h localhost -p 5432 -U test_user && break
+          echo "Waiting for PostgreSQL..."
+          sleep 3
+        done
 
     - name: Run Migrations
       env:
         SECRET_KEY: ${{ secrets.SECRET_KEY }}
         DATABASE_URL: postgres://test_user:test_password@localhost:5432/test_db
         CORS_ORIGIN_WHITELIST: ${{ secrets.CORS_ORIGIN_WHITELIST }}
+        PG_DB: test_db
+        PG_USER: test_user
+        PG_PASSWORD: test_password
+        PG_HOST: localhost
+        PG_PORT: 5432
       run: |
         source venv/bin/activate
         python manage.py migrate
 
     - name: Collect Static Files
-      env:
-        SECRET_KEY: ${{ secrets.SECRET_KEY }}
       run: |
         source venv/bin/activate
         python manage.py collectstatic --noinput
@@ -67,6 +75,11 @@ jobs:
         SECRET_KEY: ${{ secrets.SECRET_KEY }}
         DATABASE_URL: postgres://test_user:test_password@localhost:5432/test_db
         CORS_ORIGIN_WHITELIST: ${{ secrets.CORS_ORIGIN_WHITELIST }}
+        PG_DB: test_db
+        PG_USER: test_user
+        PG_PASSWORD: test_password
+        PG_HOST: localhost
+        PG_PORT: 5432
       run: |
         source venv/bin/activate
         python manage.py test
