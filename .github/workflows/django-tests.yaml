@@ -73,6 +73,8 @@ jobs:
         python manage.py migrate
 
     - name: Collect Static Files
+      env:
+        SECRET_KEY: ${{ secrets.SECRET_KEY }}  
       run: |
         source venv/bin/activate
         python manage.py collectstatic --noinput
