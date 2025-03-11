@@ -15,13 +15,13 @@ jobs:
       postgres:
         image: postgres:latest
         env:
-          POSTGRES_DB: test_db
-          POSTGRES_USER: test_user
-          POSTGRES_PASSWORD: test_password
+          POSTGRES_DB: testdb
+          POSTGRES_USER: testuser
+          POSTGRES_PASSWORD: testpassword
         ports:
           - 5432:5432
         options: >-
-          --health-cmd "pg_isready -U test_user -d test_db"
+          --health-cmd "pg_isready -U testuser -d testdb"
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
@@ -46,7 +46,7 @@ jobs:
     - name: Wait for PostgreSQL to be ready
       run: |
         for i in {1..10}; do
-          pg_isready -h localhost -p 5432 -U test_user && break
+          pg_isready -h localhost -p 5432 -U testuser && break
           echo "Waiting for PostgreSQL..."
           sleep 3
         done
@@ -54,15 +54,20 @@ jobs:
     - name: Run Migrations
       env:
         SECRET_KEY: ${{ secrets.SECRET_KEY }}
-        DATABASE_URL: postgres://test_user:test_password@localhost:5432/test_db
-        CORS_ORIGIN_WHITELIST: ${{ secrets.CORS_ORIGIN_WHITELIST }}
-        PG_DB: test_db
-        PG_USER: test_user
-        PG_PASSWORD: test_password
-        PG_HOST: localhost
-        PG_PORT: 5432
+        DATABASE_URL: postgres://testuser:testpassword@localhost:5432/testdb
+        CORS_ORIGIN_WHITELIST: http://localhost:8000,http://localhost:3000
+        PG_DB: testdb
+        PG_USER: testuser
+        PG_PASSWORD: testpassword
         DB_HOST: localhost
-        EMAIL_BACKEND: django.core.mail.backends.console.EmailBackend  # Add this line
+        DB_PORT: 5432
+        DB_PORT_OUT: 5432
+        EMAIL_BACKEND: django.core.mail.backends.smtp.EmailBackend
+        EMAIL_HOST: someuser@gmail.com
+        EMAIL_PORT: 587
+        EMAIL_USE_TLS: 1
+        EMAIL_HOST_USER: test@test.com
+        EMAIL_HOST_PASSWORD: test-password
       run: |
         source venv/bin/activate
         python manage.py migrate
@@ -75,15 +80,20 @@ jobs:
     - name: Run Django Tests
       env:
         SECRET_KEY: ${{ secrets.SECRET_KEY }}
-        DATABASE_URL: postgres://test_user:test_password@localhost:5432/test_db
-        CORS_ORIGIN_WHITELIST: ${{ secrets.CORS_ORIGIN_WHITELIST }}
-        PG_DB: test_db
-        PG_USER: test_user
-        PG_PASSWORD: test_password
-        PG_HOST: localhost
-        PG_PORT: 5432
+        DATABASE_URL: postgres://testuser:testpassword@localhost:5432/testdb
+        CORS_ORIGIN_WHITELIST: http://localhost:8000,http://localhost:3000
+        PG_DB: testdb
+        PG_USER: testuser
+        PG_PASSWORD: testpassword
         DB_HOST: localhost
-        EMAIL_BACKEND: django.core.mail.backends.console.EmailBackend  # Add this line
+        DB_PORT: 5432
+        DB_PORT_OUT: 5432
+        EMAIL_BACKEND: django.core.mail.backends.smtp.EmailBackend
+        EMAIL_HOST: someuser@gmail.com
+        EMAIL_PORT: 587
+        EMAIL_USE_TLS: 1
+        EMAIL_HOST_USER: test@test.com
+        EMAIL_HOST_PASSWORD: test-password
       run: |
         source venv/bin/activate
         python manage.py test
